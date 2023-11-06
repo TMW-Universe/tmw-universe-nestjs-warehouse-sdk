@@ -1,0 +1,32 @@
+{
+  "name": "@tmw-universe/tmw-universe-nestjs-warehouse-sdk",
+  "version": "1.0.0",
+  "description": "TMW Universe Warehouse SDK for NestJS projects.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
+  },
+  "keywords": [],
+  "author": "TheMineWay",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/axios": "^0.14.0",
+    "typescript": "^5.1.6"
+  },
+  "files": [
+    "dist",
+    "dist/**"
+  ],
+  "dependencies": {
+    "@nestjs/common": "^10.2.2",
+    "@nestjs/core": "^10.2.5",
+    "@nestjs/jwt": "^10.1.1",
+    "@tmw-universe/tmw-universe-types": "^1.0.4",
+    "@types/node": "^20.4.4",
+    "axios": "^1.5.0",
+    "date-fns": "^2.30.0",
+    "node-rsa": "^1.1.1"
+  }
+}
