@@ -8,6 +8,9 @@ import { randomString } from "../utils/string/random-string.util";
 import { AccessToken } from "../types/token/access-token.type";
 import { SignedToken } from "../types/token/signed-token.type";
 import NodeRSA from "node-rsa";
+import { Stream } from "stream";
+import axios from "axios";
+import FormData from "form-data";
 
 type SignOptions = {
   fileId: string;
@@ -75,6 +78,24 @@ export class WarehouseService {
       warehouseName: w,
       ...decodedToken,
     };
+  }
+
+  public async uploadFile(fileStream: Stream) {
+    const data = new FormData();
+    data.append("file", fileStream);
+
+    const res = await axios.post<{ fileId: string }>(
+      `${this.warehouseSettings.options.host}/warehouse/file`,
+      data,
+      {
+        maxBodyLength: Infinity,
+        headers: {
+          "api-key": this.warehouseSettings.options.apiKey,
+          ...data.getHeaders(),
+        },
+      }
+    );
+    return res.data;
   }
 
   // RSA methods
