@@ -1,9 +1,10 @@
-import { DynamicModule, Global, Logger, Module } from '@nestjs/common';
-import axios from 'axios';
-import { WarehouseService } from '../services/warehouse.service';
+import { DynamicModule, Global, Logger, Module } from "@nestjs/common";
+import axios from "axios";
+import { WarehouseService } from "../services/warehouse.service";
+import * as https from "https";
 
 export const TMWU_WAREHOUSE_SETTINGS_PROVIDER =
-  'tmwu_warehouse_settings_provider';
+  "tmwu_warehouse_settings_provider";
 
 type SetupInfo = {
   publicKey: string;
@@ -30,12 +31,15 @@ export class WarehouseModule {
     do {
       try {
         const { data } = await axios.get<SetupInfo>(
-          options.host + '/setup/info',
+          options.host + "/setup/info",
           {
             headers: {
-              'api-key': options.apiKey,
+              "api-key": options.apiKey,
             },
-          },
+            httpsAgent: new https.Agent({
+              rejectUnauthorized: false,
+            }),
+          }
         );
 
         setupInfo = data;
@@ -43,16 +47,16 @@ export class WarehouseModule {
         // If there is a public key, exit the loop
         if (setupInfo) break;
       } catch (e) {
-        Logger.warn('Cannot obtain setup information', 'Warehouse SDK');
+        Logger.warn("Cannot obtain setup information", "Warehouse SDK");
       }
 
       // Wait X seconds until a retry is made
       await new Promise((r) =>
-        setTimeout(r, options.configRetryDelay ?? 10000),
+        setTimeout(r, options.configRetryDelay ?? 10000)
       );
     } while (!setupInfo);
 
-    Logger.log('Obtained Warehouse setup information', 'Warehouse SDK');
+    Logger.log("Obtained Warehouse setup information", "Warehouse SDK");
 
     return {
       module: WarehouseModule,
