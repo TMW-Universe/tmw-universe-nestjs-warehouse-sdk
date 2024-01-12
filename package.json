@@ -1,6 +1,6 @@
 {
   "name": "@tmw-universe/tmw-universe-nestjs-warehouse-sdk",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "TMW Universe Warehouse SDK for NestJS projects.",
   "repository": "https://github.com/TMW-Universe/tmw-universe-nestjs-warehouse-sdk",
   "main": "dist/index.js",

@@ -11,6 +11,7 @@ import NodeRSA from "node-rsa";
 import { Stream } from "stream";
 import axios from "axios";
 import FormData from "form-data";
+import * as https from "https";
 
 type SignOptions = {
   fileId: string;
@@ -93,6 +94,9 @@ export class WarehouseService {
           "api-key": this.warehouseSettings.options.apiKey,
           ...data.getHeaders(),
         },
+        httpsAgent: new https.Agent({
+          rejectUnauthorized: false,
+        }),
       }
     );
     return res.data;
